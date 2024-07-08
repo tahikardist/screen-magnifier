@@ -1,0 +1,29 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  height: 100dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#video {
+  width: 300px;
+  height: 300px;
+  border: 1px solid #ccc;
+  border-radius: 100%;
+  overflow: hidden;
+  position: relative;
+}
+#video video {
+  position: absolute;
+  border-radius: 100%;
+  width: 300px;
+  height: 300px;
+  object-fit: none;
+  scale: 1.5;
+}
