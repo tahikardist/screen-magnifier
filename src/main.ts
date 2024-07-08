@@ -9,15 +9,15 @@ if (require("electron-squirrel-startup")) {
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    // frame: false,
-    // fullscreen: true,
-    // transparent: true,
+    frame: false,
+    fullscreen: true,
+    transparent: true,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
   });
 
-  // mainWindow.setIgnoreMouseEvents(true, { forward: true });
+  mainWindow.setIgnoreMouseEvents(true, { forward: true });
   mainWindow.setAlwaysOnTop(true, "normal");
 
   // and load the index.html of the app.
