@@ -22,8 +22,11 @@ ipcRenderer.on("SET_SOURCE", async (event, sourceId) => {
 async function handleStream(stream: MediaStream) {
   const video = document.querySelector("video");
   video.srcObject = stream;
-
-  video.onloadedmetadata = (e) => {
+  let [tracks] = stream.getTracks();
+  await tracks.applyConstraints({
+    frameRate: { ideal: 60 },
+  });
+  video.onloadedmetadata = async (e) => {
     video.play();
   };
 }
