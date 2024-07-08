@@ -9,16 +9,22 @@ if (require("electron-squirrel-startup")) {
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
+    webPreferences: {
+      preload: path.join(__dirname, "preload.ts"),
+    },
+  });
+
+  let overlayWindow = new BrowserWindow({
     frame: false,
     fullscreen: true,
     transparent: true,
     webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
+      preload: path.join(__dirname, "overlay-preload.ts"),
     },
   });
 
-  mainWindow.setIgnoreMouseEvents(true, { forward: true });
-  mainWindow.setAlwaysOnTop(true, "normal");
+  overlayWindow.setIgnoreMouseEvents(true, { forward: true });
+  overlayWindow.setAlwaysOnTop(true, "normal");
 
   // and load the index.html of the app.
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
@@ -27,11 +33,9 @@ const createWindow = () => {
     mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));
   }
   desktopCapturer.getSources({ types: ["window", "screen"] }).then(async (sources) => {
-    console.log(sources);
-
     for (const source of sources) {
       if (source.id === "window:66338:0") {
-        mainWindow.webContents.send("SET_SOURCE", source.id);
+        overlayWindow.webContents.send("SET_SOURCE", source.id);
         return;
       }
     }
